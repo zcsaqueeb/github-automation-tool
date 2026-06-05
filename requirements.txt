@@ -1,0 +1,5 @@
+pyTelegramBotAPI>=4.19.0
+requests>=2.31.0
+rarfile>=4.1
+unrar-cffi>=0.2.0
+py7zr>=0.20.0
