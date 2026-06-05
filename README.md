@@ -1,107 +1,234 @@
 # 🚀 Introduction
-The GitHub Automation Tool is a GitHub automation tool controlled via Telegram forms, utilizing the Telegram API for secure administration.
 
-## 🛡 Admin Panel
-The admin panel is accessible via the `/admin` command or the 🛡 Admin Panel button on the Home menu. It displays live stats, including:
-* Total users
-* Banned count
-* Admin count
-* Total repositories created
-* Support ticket count
+The GitHub Automation Tool is a GitHub automation platform controlled through Telegram forms, utilizing the Telegram Bot API for secure administration and repository management.
 
-The admin panel also features a **User List**, which is paginated (10 per page) and shows the following information for each user:
+---
+
+# 🛡 Admin Panel
+
+The Admin Panel can be accessed using the `/admin` command or the 🛡 **Admin Panel** button available in the Home Menu for administrators.
+
+The panel provides live statistics, including:
+
+* 👥 Total Users
+* 🚫 Banned Users
+* 👑 Total Admins
+* 📦 Total Repositories Created
+* 🎫 Support Tickets
+
+### User Management
+
+The **User List** is paginated (10 users per page) and displays:
+
 * 📦 Repositories Created (live count)
-* GitHub username
-* Banned / Admin status
+* GitHub Username
+* Admin Status
+* Ban Status
 
-Clicking on a user displays a detailed profile card. Per-user actions include:
-* **Ban**
-* **Unban**
-* **Promote to Admin**
-* **Demote Admin**
+Selecting a user opens a detailed profile card with the following actions:
 
-## 👑 Admin Management
-Admin management is performed using the following commands:
-* `/addadmin USER_ID` - Promote any user to admin
-* `/removeadmin USER_ID` - Demote admin (primary admin is permanent)
+* 🚫 Ban User
+* ✅ Unban User
+* 👑 Promote to Admin
+* 👤 Demote Admin
 
-Multiple admins are supported in `config.py` via the `ADMIN_IDS` list.
+---
 
-## 🚫 Ban System
-The ban system allows admins to:
-* `/ban USER_ID` - Instantly suspend a user (they receive a notification)
-* `/unban USER_ID` - Reinstate a user (they receive a welcome-back message)
+# 👑 Admin Management
 
-Banned users are **silently blocked** from all bot actions. Admins cannot ban another admin.
+Administrators can be managed using the following commands:
 
-## 📢 Broadcast
-The `/broadcast YOUR MESSAGE` command sends a message to all non-banned users. The command also displays the sent/failed count after completion. This feature is also accessible from the Admin Panel → 📢 Broadcast.
+| Command                | Description             |
+| ---------------------- | ----------------------- |
+| `/addadmin USER_ID`    | Promote a user to admin |
+| `/removeadmin USER_ID` | Remove admin privileges |
 
-## 🎫 Support System
-The support system allows:
-* Users: `/support YOUR MESSAGE` - sends a support ticket to **all admins**
-	+ Ticket includes User ID, GitHub username, and message
-* Admins: `/reply USER_ID YOUR MESSAGE` - reply directly to any user
+The primary administrator is permanent and cannot be removed.
 
-A support button is added to the main menu (🎫 Support).
+Multiple administrators are supported through the `ADMIN_IDS` list in `config.py`.
 
-## 🔒 Privacy & Data Security
-The following data is protected:
-* **Admin CANNOT see**: GitHub tokens, AI keys, personal history/logs, draft data
-* Admin only sees safe public stats (join date, repositories created, banned status, username)
-* Users' history (`/history`) is completely private — admin has zero access
-* No sensitive data is ever exposed through the admin panel or user profile view
-* Users can **only see their own** tokens, keys, history, and logs
+---
 
-## 🏠 Home Menu Updates
-The home menu features:
-* 🎫 Support button added for all users
-* 🛡 Admin Panel button appears **only for admins**
+# 🚫 Ban System
 
-## Privacy Architecture
-The following table outlines the data accessibility:
-| Data | User | Admin |
-|------|------|-------|
-| GitHub Token | ✅ Own only | ❌ Never |
-| AI API Key | ✅ Own only | ❌ Never |
-| Personal History | ✅ Own only | ❌ Never |
-| Draft/State data | ✅ Own only | ❌ Never |
-| Repositories Created (count) | ✅ Own | ✅ Count only |
-| GitHub Username | ✅ Own | ✅ Visible |
-| Banned Status | ✅ Own | ✅ Visible |
-| Join Date | ✅ Own | ✅ Visible |
+Administrators can manage user access using:
 
-## Installation
-To install the GitHub Automation Tool, follow these steps:
-1. Clone the repository
-2. Install the required dependencies
-3. Configure the `config.py` file
+| Command          | Description              |
+| ---------------- | ------------------------ |
+| `/ban USER_ID`   | Instantly suspend a user |
+| `/unban USER_ID` | Restore user access      |
 
-## Configuration (`config.py`)
-```python
-BOT_TOKEN    = "REDACTED"
-ADMIN_CHAT_ID = 000000000          # Primary admin (permanent, cannot be removed)
-ADMIN_IDS    = [ADMIN_CHAT_ID]     # Add more admin IDs here
+### Features
+
+* Banned users receive a notification when banned.
+* Users receive a welcome-back notification when unbanned.
+* Banned users are silently blocked from all bot functions.
+* Administrators cannot ban other administrators.
+
+---
+
+# 📢 Broadcast System
+
+Administrators can send announcements to all non-banned users.
+
+| Command                   | Description              |
+| ------------------------- | ------------------------ |
+| `/broadcast YOUR_MESSAGE` | Send a broadcast message |
+
+After completion, the bot reports:
+
+* ✅ Successfully Delivered
+* ❌ Failed Deliveries
+
+The broadcast feature is also available from:
+
+**Admin Panel → 📢 Broadcast**
+
+---
+
+# 🎫 Support System
+
+Users can contact administrators directly through the support system.
+
+### User Command
+
+```text
+/support YOUR_MESSAGE
 ```
 
-## Usage
-The following commands are available:
-| Command | Who | Description |
-|---------|-----|-------------|
-| `/admin` | Admin | Open admin panel |
-| `/addadmin USER_ID` | Admin | Promote user to admin |
-| `/removeadmin USER_ID` | Admin | Demote admin |
-| `/ban USER_ID` | Admin | Ban a user |
-| `/unban USER_ID` | Admin | Unban a user |
-| `/broadcast MSG` | Admin | Send to all users |
-| `/support MSG` | Everyone | Send support ticket |
-| `/reply USER_ID MSG` | Admin | Reply to user |
+Support tickets are delivered to all administrators and include:
 
-## Contributing
-To contribute to the GitHub Automation Tool, please:
+* User ID
+* GitHub Username
+* Message Content
+
+### Admin Reply Command
+
+```text
+/reply USER_ID YOUR_MESSAGE
+```
+
+Replies are sent directly to the selected user.
+
+A 🎫 **Support** button is available in the Home Menu for all users.
+
+---
+
+# 🔒 Privacy & Data Security
+
+Sensitive information remains completely private.
+
+### Administrators CANNOT Access
+
+* GitHub Tokens
+* AI API Keys
+* Personal History
+* Logs
+* Draft Data
+* User State Data
+
+### Administrators CAN Access
+
+* GitHub Username
+* Repository Count
+* Join Date
+* Admin Status
+* Ban Status
+
+User history (`/history`) is fully private and inaccessible to administrators.
+
+---
+
+# 🏠 Home Menu
+
+The Home Menu includes:
+
+* 🎫 Support
+* 🛡 Admin Panel (Admins Only)
+
+---
+
+# 📋 Privacy Architecture
+
+| Data                         | User       | Admin        |
+| ---------------------------- | ---------- | ------------ |
+| GitHub Token                 | ✅ Own Only | ❌ Never      |
+| AI API Key                   | ✅ Own Only | ❌ Never      |
+| Personal History             | ✅ Own Only | ❌ Never      |
+| Draft/State Data             | ✅ Own Only | ❌ Never      |
+| Repositories Created (Count) | ✅ Own      | ✅ Count Only |
+| GitHub Username              | ✅ Own      | ✅ Visible    |
+| Banned Status                | ✅ Own      | ✅ Visible    |
+| Join Date                    | ✅ Own      | ✅ Visible    |
+
+---
+
+# 📥 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/zcsaqueeb/github-automation-tool.git
+cd github-automation-tool
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Configure your bot settings in `config.py`.
+
+Start the bot:
+
+```bash
+python bot.py
+```
+
+---
+
+# ⚙️ Configuration (`config.py`)
+
+```python
+BOT_TOKEN      = "REDACTED"
+
+ADMIN_CHAT_ID  = 000000000  # Primary admin (permanent)
+
+ADMIN_IDS      = [ADMIN_CHAT_ID]
+```
+
+You can add additional administrator IDs to the `ADMIN_IDS` list.
+
+---
+
+# 💻 Commands
+
+| Command                  | Access   | Description           |
+| ------------------------ | -------- | --------------------- |
+| `/admin`                 | Admin    | Open Admin Panel      |
+| `/addadmin USER_ID`      | Admin    | Promote User          |
+| `/removeadmin USER_ID`   | Admin    | Demote Admin          |
+| `/ban USER_ID`           | Admin    | Ban User              |
+| `/unban USER_ID`         | Admin    | Unban User            |
+| `/broadcast MESSAGE`     | Admin    | Broadcast Message     |
+| `/support MESSAGE`       | Everyone | Submit Support Ticket |
+| `/reply USER_ID MESSAGE` | Admin    | Reply To User         |
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
 1. Fork the repository
-2. Make your changes
-3. Submit a pull request
+2. Create a new branch
+3. Make your changes
+4. Commit your work
+5. Submit a Pull Request
 
-## License
-The GitHub Automation Tool is licensed under [insert license].
+---
+
+# 📄 License
+
+This project is licensed under the license specified in the repository.
