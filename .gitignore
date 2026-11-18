@@ -1,0 +1,57 @@
+# ── Secrets — never commit these ────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Runtime data ─────────────────────────────────────────────
+users.json
+users.json.tmp.*
+users.json.corrupt.*.bak
+users.json.key
+*.json.key
+*.db
+*.sqlite3
+
+# ── Logs ─────────────────────────────────────────────────────
+bot.log
+*.log
+.test_bot.log
+.test_users.json
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.installed.cfg
+
+# ── Virtual environments ─────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Testing / coverage ───────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# ── Editors / IDEs ───────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS files ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Docker ───────────────────────────────────────────────────
+docker-compose.override.yml

@@ -1,0 +1,13 @@
+# Telegram and HTTP clients
+pyTelegramBotAPI>=4.21.0,<5
+requests>=2.32.0,<3
+urllib3>=2.0.0,<3
+
+# Configuration, encrypted storage, and time-zone data
+python-dotenv>=1.0.1,<2
+cryptography>=42.0.0,<44
+tzdata>=2024.1,<2027
+
+# Archive support. rarfile uses a system 7z/unrar executable; the supplied
+# Dockerfile installs p7zip-full. No compiler-only archive dependency is used.
+rarfile>=4.2,<5

@@ -1,0 +1,31 @@
+services:
+  bot:
+    build: .
+    container_name: github-automation-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Keep the animated banner off in containers — logs stay clean
+      # whether you're tailing `docker logs` or shipping them elsewhere.
+      CLI_ANIMATION: "false"
+    volumes:
+      # Persists the encrypted user database and log file across
+      # container restarts/rebuilds.
+      - bot-data:/app/data
+    healthcheck:
+      # The bot has no HTTP endpoint (long-polling only), so the
+      # healthcheck simply confirms the Python process is alive.
+      test: ["CMD", "pgrep", "-f", "python bot.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  bot-data:

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Lint, compile & test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install system dependencies (RAR fallback tool)
+        run: sudo apt-get update && sudo apt-get install -y p7zip-full
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Byte-compile all modules
+        run: python -m compileall -q bot.py ai_providers.py github_api.py security.py config.py cli_log.py test_security_scanner.py
+
+      - name: Lint (ruff)
+        run: ruff check . --output-format=github
+        continue-on-error: true # non-blocking for now; tighten once the codebase is fully ruff-clean
+
+      - name: Run test suite
+        env:
+          BOT_TOKEN: "000000000:CI-PLACEHOLDER-TOKEN-NOT-REAL-00000000000"
+          ADMIN_CHAT_ID: "1"
+        run: python test_security_scanner.py
